@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void displaySeats(const vector<vector<bool>>& seats) {
+    int R = seats.size();
+    int C = seats[0].size();
+
+    cout << "\nCurrent Seat Map:\n";
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < C; j++) {
+            if (seats[i][j])
+                cout << "[X] "; 
+            else
+                cout << "(" << i+1 << "-" << j+1 << ") ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int R, C;
+    cout << "Enter number of rows: ";
+    cin >> R;
+    cout << "Enter number of seats per row: ";
+    cin >> C;
+    vector<vector<bool>> seats(R, vector<bool>(C, false));
+
+    int row, col;
+    char choice = 'Y';
+
+    while (toupper(choice) == 'Y') {
+        displaySeats(seats);
+
+        cout << "\nEnter seat to reserve (row column): ";
+        cin >> row >> col;
+
+        
+        if (row < 1 || row > R || col < 1 || col > C) {
+            cout << "Invalid seat position. Try again.\n";
+            continue;
+        }
+
+        
+        if (seats[row-1][col-1]) {
+            cout << "Seat already reserved! Choose another.\n";
+        } else {
+            seats[row-1][col-1] = true;
+            cout << "Seat (" << row << "-" << col << ") reserved successfully.\n";
+        }
+
+        cout << "Do you want to reserve another seat? (Y/N): ";
+        cin >> choice;
+    }
+
+    cout << "\nFinal Seat Map:\n";
+    displaySeats(seats);
+
+    cout << "\nThank you for using the booking system!\n";
+    return 0;
+}
+
